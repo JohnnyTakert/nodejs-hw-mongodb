@@ -12,9 +12,9 @@ export const initMongoConnection = async () => {
       `mongodb+srv://${user}:${pwd}@${url}/${db}?retryWrites=true&w=majority`,
     );
 
-    console.log('Mongo connection successfully established!');
+    console.log('Mongo connection successfully established');
   } catch (error) {
-    console.log('Error while setting up mongo connection', error);
+    console.error('Error while setting up mongo connection:', error);
     throw error;
   }
 };

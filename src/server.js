@@ -60,7 +60,7 @@ export const setupServer = () => {
       next(error);
     }
   });
-  app.get('*', (req, res) => {
+  app.get((req, res) => {
     console.log(`Time: ${new Date().toLocaleString()}`);
     res.status(404).json({ message: 'Not found' });
   });
