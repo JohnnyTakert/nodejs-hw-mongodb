@@ -10,6 +10,7 @@ export const setupServer = () => {
   const app = express();
 
   app.use(cors());
+  app.use(express.json());
   app.use(
     pino({
       transport: {
@@ -23,21 +24,18 @@ export const setupServer = () => {
       message: 'Hello, its second Node Home Work)',
     });
   });
-  app.get('/contacts', async (req, res) => {
-    const contacts = await getAllContacts();
 
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully found contacts!',
-      data: contacts,
-    });
-  });
-
-  app.use((err, req, res, next) => {
-    res.status(500).json({
-      message: 'Something went wrong',
-      error: err.message,
-    });
+  app.get('/contacts', async (req, res, next) => {
+    try {
+      const contacts = await getAllContacts();
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully found contacts!',
+        data: contacts,
+      });
+    } catch (error) {
+      next(error);
+    }
   });
 
   app.get('/contacts/:contactId', async (req, res, next) => {
@@ -46,25 +44,33 @@ export const setupServer = () => {
       const contact = await getContactById(contactId);
 
       if (!contact) {
-        res.status(404).json({ message: 'Contact not found' });
-        next();
-        return;
+        return res.status(404).json({ message: 'Contact not found' });
       }
 
       res.status(200).json({
         status: 200,
-        message: 'Successfully found contacts!',
+        message: `Successfully found contact with id ${contactId}!`,
         data: contact,
       });
     } catch (error) {
       next(error);
     }
   });
-  app.get((req, res) => {
+
+  app.use((req, res) => {
     console.log(`Time: ${new Date().toLocaleString()}`);
     res.status(404).json({ message: 'Not found' });
   });
+
+  app.use((err, req, res, next) => {
+    console.error('Error:', err);
+    res.status(500).json({
+      message: 'Something went wrong',
+      error: err.message,
+    });
+  });
+
   app.listen(PORT, () => {
-    console.log(`Server is running on  port  ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
   });
 };
