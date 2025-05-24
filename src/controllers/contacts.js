@@ -20,7 +20,7 @@ export const getAllContactsController = async (req, res) => {
     perPage,
     sortBy,
     sortOrder,
-    filter: filters,
+    filters,
   });
   console.log('contacts= ', contacts);
   res.status(200).json({
