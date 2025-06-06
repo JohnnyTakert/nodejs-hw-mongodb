@@ -24,7 +24,7 @@ export const getAllContacts = async ({
     contactsQuery.where('contactType').equals(filter.contactType);
   }
 
-  const contactsCount = await ContactsCollection.find({ userId });
+  const contactsCount = await ContactsCollection.countDocuments({ userId });
   const contacts = await contactsQuery
     .skip(skip)
     .limit(limit)
@@ -36,7 +36,7 @@ export const getAllContacts = async ({
   return { data: contacts, ...PaginationData };
 };
 
-export const getContactById = async ({ contactId, userId }) => {
+export const getContactById = async (contactId, userId) => {
   const contact = await ContactsCollection.findOne({
     _id: contactId,
     userId: userId,
