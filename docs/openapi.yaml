@@ -13,7 +13,7 @@ tags:
     description: Auth operations.
 servers:
   - url: http://localhost:3000
-  - url:
+  - url: https://contacts-app-7-kbsj.onrender.com/
 paths:
   /contacts:
     get:
