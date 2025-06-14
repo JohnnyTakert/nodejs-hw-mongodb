@@ -15,10 +15,5 @@ content:
           type: string
           example: UnauthorizedError
         data:
-          type: object
-          required:
-            - message
-          properties:
-            message:
-              type: string
-              example: 'Access token expired'
+          type: string
+          example: Access token expired

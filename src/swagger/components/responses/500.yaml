@@ -13,5 +13,6 @@ content:
           example: 500
         message:
           type: string
+          example: 'Internal Server Error'
         data:
           type: string
